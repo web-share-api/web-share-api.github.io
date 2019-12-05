@@ -1,0 +1,65 @@
+<html>
+<title>
+    Web Share API
+</title>
+
+<body>
+    <div>
+        <div>
+            <input type="text" placeholder="Enter text you wanna share" id="title" />
+        </div>
+        <div>
+            <input type="text" placeholder="Enter the text you want to share here" id="text" />
+        </div>
+        <div>
+            <input type="text" placeholder="Enter the URL" id="url" />
+        </div>
+        <div>
+            <input type="file" id="file" />
+        </div>
+        <div>
+            <button onclick="share" id="shareButton">Share</button>
+            <button onclick="shareFiles" id="shareFilesButton">Share Files</button>
+        </div>
+    </div>
+</body>
+<script>
+    shareButton.addEventListener("click", () => share())
+    shareFilesButton.addEventListener("click", () => shareFiles())
+
+    function share() {
+        console.log("23")
+        if (navigator.share) {
+            navigator.share({
+                    title: title.value,
+                    text: text.value,
+                    url: url.value,
+                })
+                .then(() => console.log('Successful share'))
+                .catch((error) => console.log('Error sharing', error));
+        } else {
+            console.log("Web Share API is not available in your browser.")
+        }
+    }
+
+    function shareFiles() {
+        
+        console.log(file.value)
+        const files = [file]
+        if (navigator.canShare && navigator.canShare({
+                files: files
+            })) {
+            navigator.share({
+                    title: title.value,
+                    text: text.value,
+                    file: files,
+                })
+                .then(() => console.log('Successful share'))
+                .catch((error) => console.log('Error sharing', error));
+        } else {
+            console.log("Web Share API is not available in your browser.")
+        }
+    }
+</script>
+
+</html>
